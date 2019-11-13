@@ -1,0 +1,44 @@
+<div class="login_wrapper">
+  <section class="welcome">
+    <h3 class="welcome_title">Приветствуем Вас на The Movie DB</h3>
+    <p class="welcome_text">Вы любите смотреть фильмы, онлайн? Если да, то у нас вы обязательно найдете для себя что-то
+      интересное. Мы
+      собрали огромную коллекцию фильмов, которая постоянно пополняется как новинками, так и всеми любимыми и
+      признанными шедеврами прошлых лет!
+      Предпочитаете картины исключительно зарубежного производства? У нас их предостаточно: это и золотая классика
+      Голливуда, и душевные французские комедии, и темпераментные итальянские драмы, и шумные индийские
+      музыкальные фильмы. А может, вы патриот и любите отечественные фильмы? Что ж, и таких фильмов у нас немало!
+    </p>
+    <p class="hint">*Для того, чтобы иметь доступ к нашей огромной коллекции фильмов, необходимо авторизоваться</p>
+  </section>
+  <mat-card class="loginForm">
+    <form fxLayout="column" [formGroup]="userForm" (ngSubmit)="login()">
+      <mat-form-field class="form_field">
+        <input matInput placeholder="Login" name="userLogin" required formControlName="userLogin" />
+        <mat-icon *ngIf="formErrors.userLogin" matSuffix class="error_icon error_icon_login">error</mat-icon>
+        <mat-error *ngIf="formErrors.userLogin" class="error">{{formErrors.userLogin}}</mat-error>
+        <!-- <div *ngIf="formErrors.userLogin" class="tooltip_msg">{{formErrors.userLogin}}</div> -->
+      </mat-form-field>
+
+      <mat-form-field class="form_field">
+        <input matInput placeholder="Password" name="userPassword" required [type]="hide ? 'password' : 'text'"
+          formControlName="userPassword" />
+        <mat-icon *ngIf="formErrors.userPassword" matSuffix class="error_icon error_icon_password">error</mat-icon>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formErrors.userPassword" class="error">{{ formErrors.userPassword}}</mat-error>
+        <!-- <div *ngIf="formErrors.userPassword" class="tooltip_msg">{{formErrors.userPassword}}</div> -->
+      </mat-form-field>
+
+      <div class="button_form">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between">
+          <button mat-button type="submit" [disabled]="!userForm.valid" class="login_button">Войти</button>
+          <button mat-button type="button" (click)="clear()" class="clear_button">Очистить форму</button>
+        </div>
+        <button mat-button type="button" class="button_registration" (click)="goToRegistration()">Регистрация</button>
+      </div>
+    </form>
+  </mat-card>
+</div>
