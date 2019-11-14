@@ -7,11 +7,11 @@ export class ActorCast {
   backdrop_path: null | string;
   character: string;
   credit_id: string;
-  genre_ids: { id: number, name: string }
+  genre_ids: { id: number, name: string };
   id: number;
   original_title: string;
   overview: string;
-  popularity: number
+  popularity: number;
   poster_path: string;
   release_date: string;
   title: string;
@@ -30,7 +30,7 @@ export class ActorCrew {
   poster_path: string | null;
   release_date: string;
   title: string;
-  video: boolean
+  video: boolean;
   vote_average: number;
   vote_count: number;
   id: number;

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FilmService } from './shared/service/film.service';
 import { Router } from '@angular/router';
 import { SearchApiService } from './film-catalog/search-api/search-api.service';
@@ -16,7 +16,7 @@ import { AppSpinnerService } from './shared/service/app-spinner.service';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   valueSearch: string;
   isLogin: boolean;
   username: string;
@@ -47,13 +47,13 @@ export class AppComponent {
     this.isLogin = this.authService.isLoggedIn();
     this.authService.legLoginStatus().subscribe((isLogin: boolean) => {
       this.isLogin = isLogin;
-    })
+    });
     this.searchApiService.isSearchObserver$.subscribe((status) => {
       this.isSearch = status;
-    })
+    });
     this.userService.initName$.subscribe((name) => {
       this.username = name;
-    })
+    });
     this.count_favorites = this.userService.initFavorite$;
     this.count_marks = this.userService.initBookMark$;
   }
@@ -81,6 +81,6 @@ export class AppComponent {
             body: err,
           });
         });
-    })
+    });
   }
 }

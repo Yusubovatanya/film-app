@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { AppSpinnerService } from 'src/app/shared/service/app-spinner.service';
 import { UserService } from '../../../shared/service/user.service';
 import { Film } from 'src/app/shared/models/film.model';
@@ -10,12 +10,12 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './user-book-mark.component.html',
   styleUrls: ['./user-book-mark.component.css'],
 })
-export class UserBookMarkComponent implements OnInit {
+export class UserBookMarkComponent implements OnInit, AfterContentInit {
   filmBookMarkList: Film[] = [];
   filmFavoriteListService: Film[] = [];
   filmBookMarkListService: Film[] = [];
   count_marks: number;
-  itemsOnPage: number = 12;
+  itemsOnPage = 12;
   result = true;
   errorMessage = '';
   lastPage: boolean;
@@ -31,7 +31,7 @@ export class UserBookMarkComponent implements OnInit {
   }
 
   getBookMarkFilms(): void {
-    this.pagingService.initPaging()
+    this.pagingService.initPaging();
     this.filmBookMarkListService = this.userService.filmBookMarkListService;
     if (this.userService.filmBookMarkListService.length) {
       this.count_marks = this.userService.totalResultMark;
@@ -39,7 +39,7 @@ export class UserBookMarkComponent implements OnInit {
     }
     this.filmFavoriteListService = this.userService.filmFavoriteListService;
     if (this.filmFavoriteListService.length) {
-      this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.count_marks)
+      this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.count_marks);
       this.pagingService.identLastPageService();
       this.buildFavorites();
       this.getNextPageFilms();
@@ -52,7 +52,9 @@ export class UserBookMarkComponent implements OnInit {
 
   getNextPageFilms(): void {
     this.pagingService.identStartEndPage();
-    this.filmBookMarkList = this.filmBookMarkList.concat(this.filmBookMarkListService.slice(this.pagingService.startPage, this.pagingService.endPage));
+    this.filmBookMarkList = this.filmBookMarkList.concat(
+      this.filmBookMarkListService.slice(this.pagingService.startPage, this.pagingService.endPage)
+    );
     this.isLastPage();
   }
 
@@ -63,11 +65,11 @@ export class UserBookMarkComponent implements OnInit {
   buildFavorites() {
     this.filmBookMarkListService.map(film => {
       film.isFavorite = (this.userService.buildFavorites()).indexOf(film.id) > -1;
-    })
+    });
   }
 
   makeStar(film: Film): void {
-    let id = film.id;
+    const id = film.id;
     this.userService.makeFavoriteService(id, !film.isFavorite).pipe(
       switchMap(() => {
         return this.userService.getFavoriteFilmsService();
@@ -77,13 +79,13 @@ export class UserBookMarkComponent implements OnInit {
       this.getBookMarkFilms();
     },
       err => {
-        console.log(err)
+        console.log(err);
       }
-    )
+    );
   }
 
   makeMark(film: Film): void {
-    let id = film.id;
+    const id = film.id;
     this.userService.makeBookMarkService(id, !film.isMark).pipe(
       switchMap(() => {
         return this.userService.getBookMarkFilmsService();
@@ -94,8 +96,9 @@ export class UserBookMarkComponent implements OnInit {
       this.getBookMarkFilms();
     },
       err => {
-        console.log(err)
-      })
+        console.log(err);
+      }
+    );
   }
 
   initParams() {
@@ -116,5 +119,4 @@ export class UserBookMarkComponent implements OnInit {
   trackByFn(item) {
     return item.id;
   }
-
 }

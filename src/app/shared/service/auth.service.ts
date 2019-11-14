@@ -15,12 +15,12 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class AuthService {
-  loggedIn: boolean = false;
+  loggedIn = false;
   observer = new ReplaySubject(1);
   params: HttpParams;
   session_id: string;
   expiresDate: any;
-  request_token: any
+  request_token: any;
 
   constructor(
     private http: HttpClient,
@@ -60,23 +60,22 @@ export class AuthService {
         return [
           { 'password': password, 'request_token': res.request_token, 'api_key': `${this.localConfig.apiKey}` },
           { 'request_token': res.request_token }
-        ]
+        ];
       }),
       mergeMap((params: QueryParams[]) => {
         return this.http.get(`${this.localConfig.authUrlUser}${username}`, { params: params[0] }).pipe(
-          switchMap((res) => {
+          switchMap(() => {
             return this.http.get(`${this.localConfig.authId}${this.localConfig.apiKey}`, { params: params[1] }).pipe(
               tap((res: RequestSessionId) => {
                 if (res.success) {
                   this.setAuthToLocalStorage(res.session_id);
                 }
               })
-            )
+            );
           })
-        )
-      }
-      )
-    )
+        );
+      })
+    );
   }
 
 

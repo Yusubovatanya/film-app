@@ -15,11 +15,11 @@ const routes: Routes = [
     resolve: { resultResolve: UserResolveService },
     children: [
       {
-        path: "",
+        path: '',
         component: FilmsListComponent,
       },
       {
-        path: ":id",
+        path: ':id',
         component: FilmIdComponent,
       }
     ],

@@ -21,7 +21,7 @@ export class Config {
   userAccId: string;
   userAccIdList: string;
   paramsApi: string;
-  paramsUser:string;
+  paramsUser: string;
   videoPath: string;
   videoPathVimeo: string;
   favoritePage: string;

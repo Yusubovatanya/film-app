@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Config } from 'protractor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LOCAL_CONFIG } from '../../../shared/local-config';
@@ -17,7 +17,7 @@ import { startWith, switchMap } from 'rxjs/operators';
   templateUrl: './actor-id.component.html',
   styleUrls: ['./actor-id.component.css'],
 })
-export class ActorIdComponent implements OnInit {
+export class ActorIdComponent implements OnInit, AfterContentInit, AfterViewInit {
   actorId: Actor;
   filmListCredit: ActorCast[] = [];
   imgUrlActor: string;
@@ -57,7 +57,7 @@ export class ActorIdComponent implements OnInit {
           return forkJoin(
             this.filmService.getActorId(this.id),
             this.filmService.getFilmCredit(this.id),
-          )
+          );
         })
       ).subscribe((data: [Actor, ActorCastCrew]) => {
         if (data[0]) {

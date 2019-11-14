@@ -13,7 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientXsrfModule } from '@angular/common/http';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
@@ -41,7 +40,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     HttpClientModule,
     MatProgressSpinnerModule,
     HttpClientXsrfModule,
-    ScrollDispatchModule,
     MatSidenavModule,
     ReactiveFormsModule,
     FlexLayoutModule,

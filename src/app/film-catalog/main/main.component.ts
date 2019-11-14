@@ -1,25 +1,24 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { AppSpinnerService } from "src/app/shared/service/app-spinner.service";
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { AppSpinnerService } from 'src/app/shared/service/app-spinner.service';
 import { FilmService } from '../../shared/service/film.service';
 import { Film, FilmList } from '../../shared/models/film.model';
 import { SearchApiService } from '../search-api/search-api.service';
 import { Router } from '@angular/router';
 import { LOCAL_CONFIG } from '../../shared/local-config';
 import { Config } from 'src/app/shared/models/config-model';
-import { Actor } from "src/app/shared/models/actor.model";
-import { AuthService } from "src/app/shared/service/auth.service";
-import { Subscription } from "rxjs";
-import { ActorList } from "src/app/shared/models/actorList.model";
+import { Actor } from 'src/app/shared/models/actor.model';
+import { AuthService } from 'src/app/shared/service/auth.service';
+import { Subscription } from 'rxjs';
+import { ActorList } from 'src/app/shared/models/actorList.model';
 
 @Component({
-  selector: "main",
-  templateUrl: "./main.component.html",
-  styleUrls: ["./main.component.css"],
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.css'],
 })
-export class MainComponent implements OnInit {
-  result: boolean = true;
-
-  currentPageService: number = 1; //paging service
+export class MainComponent implements OnInit, OnDestroy {
+  result = true;
+  currentPageService = 1;
   itemsOnPageService: number;
   itemsOnPage = 6;
   filmListService: Film[] = [];
@@ -56,7 +55,7 @@ export class MainComponent implements OnInit {
   }
 
   getFilmsService() {
-    this.appSpinnerService.showOrHideSpinner(true)
+    this.appSpinnerService.showOrHideSpinner(true);
     this.subscriptionFilms$ = this.filmsService.getPopularFilms(this.currentPageService).subscribe(
       (filmItems: FilmList) => {
         this.imgUrl = `${this.localConfig.midImgPath}`;
@@ -70,18 +69,18 @@ export class MainComponent implements OnInit {
   }
 
   getActorService() {
-    this.appSpinnerService.showOrHideSpinner(true)
+    this.appSpinnerService.showOrHideSpinner(true);
     this.subscriptionActors$ = this.filmsService.getPopularActors(this.currentPageService).subscribe(
       (actors: ActorList) => {
         this.actorListService = this.actorListService.concat(actors.results);
         this.imgUrlActor = `${this.localConfig.smallBackPath}`;
-        this.appSpinnerService.showOrHideSpinner(!true)
+        this.appSpinnerService.showOrHideSpinner(!true);
         this.actorList = this.actorList.concat(this.actorListService.slice(0, this.itemsOnPage));
-
       },
       err => {
-        console.log("error");
-      })
+        console.log('error');
+      }
+    );
   }
 
   getIdActor(id) {

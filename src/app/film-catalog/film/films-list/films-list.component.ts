@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FilmService } from '../../../shared/service/film.service';
 import { Film, FilmList } from '../../../shared/models/film.model';
 import { AppSpinnerService } from 'src/app/shared/service/app-spinner.service';
@@ -13,19 +13,19 @@ import { switchMap } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'films',
+  selector: 'app-films',
   templateUrl: './films-list.component.html',
   styleUrls: ['./films-list.component.css'],
 })
-export class FilmsListComponent implements OnInit {
+export class FilmsListComponent implements OnInit, OnDestroy {
   result: boolean;
-  valueSearch: string = "";
+  valueSearch = '';
   itemsOnPage = 8;
   filmListService: Film[] = [];
   filmList: Film[] = [];
   imgUrl: string;
   imgUrlActor: string;
-  isSpinnerValue: boolean = true;
+  isSpinnerValue = true;
   totalResult: number;
   errorMessage = '';
   filmFavoriteListService: Film[] = [];
@@ -54,7 +54,7 @@ export class FilmsListComponent implements OnInit {
       this.valueSearch = res;
       this.pagingService.initPaging();
       this.initFilms();
-    })
+    });
   }
 
   initFilms(): void {
@@ -79,13 +79,13 @@ export class FilmsListComponent implements OnInit {
   buildFavorites(): void {
     this.filmListService.map(film => {
       film.isFavorite = (this.userService.buildFavorites()).indexOf(film.id) > -1;
-    })
+    });
   }
 
   buildMarks(): void {
     this.filmListService.map(film => {
       film.isMark = (this.userService.buildMarks()).indexOf(film.id) > -1;
-    })
+    });
   }
 
   makeStar(film: Film): void {
@@ -102,11 +102,11 @@ export class FilmsListComponent implements OnInit {
       err => {
         console.log(err);
       }
-    )
+    );
   }
 
   makeMark(film: Film) {
-    let id = film.id;
+    const id = film.id;
     this.userService.makeBookMarkService(id, !film.isMark).pipe(
       switchMap(() => {
         return this.userService.getBookMarkFilmsService();
@@ -117,7 +117,8 @@ export class FilmsListComponent implements OnInit {
     },
       error => {
         this.router.navigate(['/main', { action: error }]);
-      })
+      }
+    );
   }
 
   initParamsFavoriteMark(): void {
@@ -136,12 +137,12 @@ export class FilmsListComponent implements OnInit {
         this.filmListService = this.filmListService.concat(filmItems.results);
         this.imgUrl = `${this.localConfig.midImgPath}`;
         this.totalResult = filmItems.total_results;
-        this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.totalResult, filmItems.results.length)
+        this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.totalResult, filmItems.results.length);
         this.pagingService.identLastPageService();
         this.buildFavorites();
         this.buildMarks();
         this.getNextPageFilms();
-        this.appSpinnerService.showOrHideSpinner(!true)
+        this.appSpinnerService.showOrHideSpinner(!true);
       },
       err => {
         console.log(err);
@@ -173,7 +174,7 @@ export class FilmsListComponent implements OnInit {
   }
 
   filterItems(list, value, key) {
-    let exp = new RegExp(value, "i");
+    const exp = new RegExp(value, 'i');
     return list.filter(item => {
       return exp.test(item[key]);
     });

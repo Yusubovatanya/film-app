@@ -7,7 +7,6 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
 export class SanitizerPipe implements PipeTransform {
 
   constructor(protected sanitizer: DomSanitizer) {}
- 
   transform(value: any, type: string): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {
      switch (type) {
        case 'html': return this.sanitizer.bypassSecurityTrustHtml(value);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SearchApiService } from 'src/app/film-catalog/search-api/search-api.service';
 import { Subscription, fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./search.component.css'],
 })
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   valueSearch: string;
   subscription$: Subscription;
 
@@ -23,23 +23,20 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription$ = this.searchApiService.resetSearchObserver$.subscribe(() => this.valueSearch = "")
-
-    this.keydown = fromEvent(document, 'keydown').pipe(
-    )
-    
+    this.subscription$ = this.searchApiService.resetSearchObserver$.subscribe(() => this.valueSearch = '');
+    this.keydown = fromEvent(document, 'keydown');
     this.subscription = this.keydown.subscribe((event: KeyboardEvent) => {
-      if ((event.code === 'KeyX' && event.ctrlKey == true) || event.key === "Backspace" || event.key === "Delete") {
+      if ((event.code === 'KeyX' && event.ctrlKey === true) || event.key === 'Backspace' || event.key === 'Delete') {
         if (this.valueSearch.length) {
-          this.searchApiService.transferSearchValueService("");
+          this.searchApiService.transferSearchValueService('');
         }
       }
-    })
+    });
   }
 
   clearField() {
-    this.valueSearch = "";
-    this.searchApiService.transferSearchValueService("");
+    this.valueSearch = '';
+    this.searchApiService.transferSearchValueService('');
   }
 
   search() {
@@ -49,7 +46,6 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription$.unsubscribe();  
+    this.subscription$.unsubscribe();
   }
 }
-

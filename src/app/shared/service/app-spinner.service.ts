@@ -12,5 +12,4 @@ export class AppSpinnerService {
   showOrHideSpinner(value: boolean) {
     this.spinnerService.next(value);
   }
- 
 }

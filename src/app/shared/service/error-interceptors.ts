@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { LOCAL_CONFIG } from '../local-config';
 import { Config } from 'protractor';
 import { AuthService } from './auth.service';
 import { catchError } from 'rxjs/operators';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { MessagesService } from './messages.service';
 
 @Injectable({
@@ -13,8 +13,8 @@ import { MessagesService } from './messages.service';
 })
 
 export class ErrorInterceptor implements HttpInterceptor {
-  errMsg: string = "";
-  typeMsg: string = "";
+  errMsg = '';
+  typeMsg = '';
 
   constructor(
     @Inject(LOCAL_CONFIG) public localConfig: Config,
@@ -26,17 +26,17 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        console.log(error)
+        console.log(error);
         this.handleAuthError(error);
-        return of(error.error.status_message)
+        return of(error.error.status_message);
       }) as any);
   }
 
   private defineErrMsg(err) {
-    if (err.error.status_message === "Session denied") {
-      this.errMsg = "Сессия истекла. Вам необходимо авторизоваться";
+    if (err.error.status_message === 'Session denied') {
+      this.errMsg = 'Сессия истекла. Вам необходимо авторизоваться';
     } else {
-      this.errMsg = "Неверное имя пользователя и / или пароль"
+      this.errMsg = 'Неверное имя пользователя и / или пароль';
     }
   }
 
@@ -48,33 +48,33 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
-    this.typeMsg = "danger";
+    this.typeMsg = 'danger';
     if (+err.status === 401 || +err.status === 403) {
       this.router.navigate([`/login`]);
       this.authService.exit();
       this.defineErrMsg(err);
-      this.showMsgError()
+      this.showMsgError();
       return of(err.message);
     } else {
-      this.checkOtherErr(err)
+      this.checkOtherErr(err);
     }
   }
 
   private checkOtherErr(err) {
-    this.typeMsg = "danger";
+    this.typeMsg = 'danger';
     switch (+err.status) {
       case 404:
-        this.typeMsg = "warning"
-        this.errMsg = "Извините, по вашему запросу ничего не найдено!";
+        this.typeMsg = 'warning';
+        this.errMsg = 'Извините, по вашему запросу ничего не найдено!';
         break;
       case 500 || 503:
-        this.errMsg = "Внутренняя ошибка сервера. Попробуйте еще раз."
+        this.errMsg = 'Внутренняя ошибка сервера. Попробуйте еще раз.';
         break;
       default:
         this.errMsg = `${err.statusText} ${err.status}`;
         break;
     }
-    this.showMsgError()
+    this.showMsgError();
     throw (err);
   }
 }

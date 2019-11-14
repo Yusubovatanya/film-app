@@ -10,11 +10,11 @@ import { LoginComponent } from './film-catalog/login/login.component';
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: "registration", component: RegistrationComponent, canDeactivate: [CanDeactivateGuard] },
-  { path: "main", loadChildren: './film-catalog/main/main.module#MainModule', canLoad: [AuthGuard] },
-  { path: "user", loadChildren: './film-catalog/user/user.module#UserModule', canLoad: [AuthGuard] },
-  { path: "films", loadChildren: './film-catalog/film/film.module#FilmModule', canLoad: [AuthGuard] },
-  { path: "actors", loadChildren: './film-catalog/actor/actor.module#ActorModule', canLoad: [AuthGuard] },
+  { path: 'registration', component: RegistrationComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: 'main', loadChildren: './film-catalog/main/main.module#MainModule', canLoad: [AuthGuard] },
+  { path: 'user', loadChildren: './film-catalog/user/user.module#UserModule', canLoad: [AuthGuard] },
+  { path: 'films', loadChildren: './film-catalog/film/film.module#FilmModule', canLoad: [AuthGuard] },
+  { path: 'actors', loadChildren: './film-catalog/actor/actor.module#ActorModule', canLoad: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

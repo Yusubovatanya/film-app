@@ -11,9 +11,9 @@ export const localConfigStatic = {
   autId: 'https://api.themoviedb.org/3/authentication/session/new?api_key=',
   userUrl: 'https://api.themoviedb.org/3/account?api_key=',
   userAccId: 'https://api.themoviedb.org/3/account/',
-  videoPath: "https://www.youtube.com/embed/",
-  videoPathVimeo: "https://player.vimeo.com/video/",
-}
+  videoPath: 'https://www.youtube.com/embed/',
+  videoPathVimeo: 'https://player.vimeo.com/video/',
+};
 
 export const localConfig: Config = {
   apiUrl: localConfigStatic.apiUrl,

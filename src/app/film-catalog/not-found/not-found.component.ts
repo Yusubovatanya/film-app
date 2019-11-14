@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import { interval, Subscription, Observable } from 'rxjs';
-import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
   selector: 'app-not-found',
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.css']
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router,
-    private authService: AuthService) {
+  constructor(
+    private router: Router,
+  ) {
   }
 
-  counter: number = 5;
+  counter = 5;
   subscription$: Subscription;
   observable: Observable<number>;
 
@@ -36,6 +36,6 @@ export class NotFoundComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription$.unsubscribe();  // отписка!
+    this.subscription$.unsubscribe();
   }
 }

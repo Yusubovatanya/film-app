@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { UserService } from '../../../shared/service/user.service';
 import { AppSpinnerService } from 'src/app/shared/service/app-spinner.service';
 import { Film } from 'src/app/shared/models/film.model';
@@ -10,12 +10,12 @@ import { switchMap, mergeMap, delay } from 'rxjs/operators';
   templateUrl: './user-favorite.component.html',
   styleUrls: ['./user-favorite.component.css'],
 })
-export class UserFavoriteComponent implements OnInit {
+export class UserFavoriteComponent implements OnInit, AfterContentInit {
   filmFavoriteListService: Film[] = [];
   filmBookMarkListService: Film[] = [];
   filmFavoriteList: Film[] = [];
   count_favorites: number;
-  itemsOnPage: number = 12;
+  itemsOnPage = 12;
   result = true;
   errorMessage = '';
   lastPage: boolean;
@@ -41,7 +41,7 @@ export class UserFavoriteComponent implements OnInit {
     if (this.userService.filmBookMarkListService) {
       this.buildMarks();
     }
-    this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.count_favorites)
+    this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.count_favorites);
     this.pagingService.identLastPageService();
     this.getNextPageFilms();
   }
@@ -52,24 +52,26 @@ export class UserFavoriteComponent implements OnInit {
 
   getNextPageFilms(): void {
     this.pagingService.identStartEndPage();
-    this.filmFavoriteList = this.filmFavoriteList.concat(this.filmFavoriteListService.slice(this.pagingService.startPage, this.pagingService.endPage));
+    this.filmFavoriteList = this.filmFavoriteList.concat(this.filmFavoriteListService.slice(
+      this.pagingService.startPage, this.pagingService.endPage
+    ));
     this.isLastPage();
   }
 
   buildFavorites(): void {
     this.filmFavoriteListService.map(film => {
       film.isFavorite = true;
-    })
+    });
   }
 
   buildMarks(): void {
     this.filmFavoriteListService.map(film => {
       film.isMark = (this.userService.buildMarks()).indexOf(film.id) > -1;
-    })
+    });
   }
 
   makeStar(film: Film): void {
-    let id = film.id;
+    const id = film.id;
     this.userService.makeFavoriteService(id, !film.isFavorite).pipe(
       delay(5000),
       switchMap(() => {
@@ -82,14 +84,15 @@ export class UserFavoriteComponent implements OnInit {
       },
         err => {
           console.log(err);
-        })
+        }
+      );
   }
 
   makeMark(film: Film): void {
-    let id = film.id;
+    const id = film.id;
     this.userService.makeBookMarkService(id, !film.isMark).pipe(
       switchMap(() => {
-        return this.userService.getBookMarkFilmsService()
+        return this.userService.getBookMarkFilmsService();
       })
     ).subscribe(() => {
       this.initParams();
@@ -97,7 +100,7 @@ export class UserFavoriteComponent implements OnInit {
     },
       err => {
         console.log(err);
-      })
+      });
   }
 
   initParams() {

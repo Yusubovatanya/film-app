@@ -8,5 +8,5 @@ export class Actor {
   biography: string;
   popularity: number;
   place_of_birth: string;
-  homepage: string
+  homepage: string;
 }

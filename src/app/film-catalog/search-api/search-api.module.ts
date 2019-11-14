@@ -11,20 +11,19 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule, 
+    SharedModule,
     AppMaterialModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
-    SearchApiComponent
+    SearchApiComponent,
   ],
   exports: [
-    SearchApiComponent
+    SearchApiComponent,
   ],
   providers: [
     { provide: LOCAL_CONFIG, useValue: localConfig }
-  ],
-  bootstrap: []
+  ]
 })
 export class SearchApiModule { }
 

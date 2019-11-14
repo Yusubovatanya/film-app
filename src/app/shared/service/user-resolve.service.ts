@@ -24,9 +24,9 @@ export class UserResolveService implements Resolve<any> {
             of(userData),
             this.userService.getFavoriteFilmsService(),
             this.userService.getBookMarkFilmsService(),
-          )
+          );
         })
-      )
+      );
     }
   }
 }

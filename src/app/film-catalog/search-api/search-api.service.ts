@@ -10,8 +10,8 @@ import { Router, NavigationEnd, ChildActivationStart, ActivationEnd } from '@ang
 })
 export class SearchApiService {
   isSearch: boolean;
-  valueSort: string = "";
-  valueSearch: string = "";
+  valueSort = '';
+  valueSearch = '';
   search = new ReplaySubject<string>(1);
   searchObserver$ = this.search.asObservable();
 
@@ -32,39 +32,41 @@ export class SearchApiService {
         this.valueSort = event.url.split('/')[1];
         this.search.next(this.valueSearch);
         this.checkSearchStatus(event.url.slice(1));
-        this.resetSearchField()
+        this.resetSearchField();
       }
     });
   }
 
   checkSearchStatus(type) {
     let status;
-    if (type === "actors" || type === "films") {
+    if (type === 'actors' || type === 'films') {
       status = true;
     } else {
       status = false;
     }
-    this.isSearchStatus.next(status)
+    this.isSearchStatus.next(status);
   }
 
   transferSearchValueService(valueSearch: string) {
     this.valueSearch = valueSearch;
-    if ((this.valueSort === "main" || this.valueSort === "") && this.valueSearch.length) {
+    if ((this.valueSort === 'main' || this.valueSort === '') && this.valueSearch.length) {
       this.router.navigateByUrl('/films');
     }
     this.search.next(this.valueSearch);
   }
 
   getSearch(valueSearch: string, page?: number) {
-    if (this.valueSort === "actors") {
-      return this.http.get(`${this.localConfig.searchUrl}/person?page=${page}${this.localConfig.params}&query=${encodeURIComponent(valueSearch)}&include_adult=false`);
+    if (this.valueSort === 'actors') {
+      return this.http.get(`${this.localConfig.searchUrl}/person?page=${page}${this.localConfig.params}\
+      &query=${encodeURIComponent(valueSearch)}&include_adult=false`);
     } else {
-      return this.http.get(`${this.localConfig.searchUrl}/movie?page=${page}${this.localConfig.params}&query=${encodeURIComponent(valueSearch)}&include_adult=false`);
+      return this.http.get(`${this.localConfig.searchUrl}/movie?page=${page}${this.localConfig.params}\
+      &query=${encodeURIComponent(valueSearch)}&include_adult=false`);
     }
   }
 
   resetSearchField() {
-    this.valueSearch = "";
+    this.valueSearch = '';
     this.resetSearch.next();
   }
 

@@ -7,12 +7,12 @@ export class ShortStatePipe implements PipeTransform {
 
   transform(country: string): string {
     switch (country.toLowerCase()) {
-      case "united states of america":
-        return "USA";
-      case "united kingdom":
-        return "UK";
+      case 'united states of america':
+        return 'USA';
+      case 'united kingdom':
+        return 'UK';
       default:
-        return country
+        return country;
     }
   }
 }

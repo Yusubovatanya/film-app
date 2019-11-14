@@ -8,12 +8,12 @@ export class PagingService {
   totalResults: number;
   partList: Film[] = [];
   listService: Film[] = [];
-  currentPage: number = 0;   
-  itemsOnPage: number; 
+  currentPage = 0;
+  itemsOnPage: number;
   endPage: number;
-  startPage: number = 0;
-  currentPageService: number = 0; 
-  itemsOnPageService: number = 1;
+  startPage = 0;
+  currentPageService = 0;
+  itemsOnPageService = 1;
   lastPage: number;
   result = true;
 
@@ -30,7 +30,7 @@ export class PagingService {
   }
 
   setInitialParametersPaging(itemsOnPage: number, totalResults: number, itemsOnPageService: number = 1) {
-    this.itemsOnPage = itemsOnPage; 
+    this.itemsOnPage = itemsOnPage;
     this.totalResults = totalResults;
     this.itemsOnPageService = itemsOnPageService;
   }
@@ -55,11 +55,13 @@ export class PagingService {
   }
 
   changeCurrentPageService() {
-    this.currentPageService++
+    this.currentPageService++;
   }
 
   checkNextFilmService() {
-    return ((this.currentPage + 1) === Math.floor((this.itemsOnPageService * this.currentPageService) / this.itemsOnPage))
+    return ((this.currentPage + 1) === Math.floor(
+      (this.itemsOnPageService * this.currentPageService) / this.itemsOnPage
+    ));
   }
 
 }

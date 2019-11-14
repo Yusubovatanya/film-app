@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { LOCAL_CONFIG } from 'src/app/shared/local-config';
 import { Config } from 'src/app/shared/models/config-model';
 import { UserService } from '../../../shared/service/user.service';
@@ -11,7 +11,7 @@ import { User } from 'src/app/shared/models/user.model';
   templateUrl: './user-id.component.html',
   styleUrls: ['./user-id.component.css'],
 })
-export class UserIdComponent implements OnInit {
+export class UserIdComponent implements OnInit, AfterContentInit {
   dataUser: User;
   userImg: string;
   imgFull: string;

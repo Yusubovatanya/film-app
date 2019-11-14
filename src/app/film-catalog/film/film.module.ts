@@ -23,12 +23,5 @@ import { RouterModule } from '@angular/router';
     FilmIdComponent,
     FilmComponent
   ],
-  exports: [
-
-  ]
-  
 })
 export class FilmModule { }
-
-
-

@@ -11,8 +11,7 @@ import { Actor } from '../models/actor.model';
 })
 export class ActorItemComponent implements OnInit {
   @Input() actor: Actor;
-  
-  imgFull: string
+  imgFull: string;
   imgUrl: string;
 
   constructor(@Inject(LOCAL_CONFIG) public localConfig: Config) {

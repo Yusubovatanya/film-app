@@ -44,10 +44,8 @@ export class FilmService {
 
   getDate(dateList) {
     dateList.forEach(film => {
-      film.release_date = +moment(film.release_date, "YYYY-MM-DD").format('x');
+      film.release_date = +moment(film.release_date, 'YYYY-MM-DD').format('x');
     });
     return dateList;
   }
-
 }
-

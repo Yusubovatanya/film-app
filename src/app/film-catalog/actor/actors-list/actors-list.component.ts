@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Config } from 'src/app/shared/models/config-model';
 import { SearchApiService } from '../../search-api/search-api.service';
 import { LOCAL_CONFIG } from '../../../shared/local-config';
@@ -11,14 +11,14 @@ import { Subscription } from 'rxjs';
 import { ActorList } from 'src/app/shared/models/actorList.model';
 
 @Component({
-  selector: 'actors',
+  selector: 'app-actors',
   templateUrl: './actors-list.component.html',
   styleUrls: ['./actors-list.component.css'],
 })
-export class ActorListComponent implements OnInit {
-  result: boolean = true;
-  valueSearch: string = "";
-  itemsOnPage = 8; 
+export class ActorListComponent implements OnInit, OnDestroy {
+  result = true;
+  valueSearch = '';
+  itemsOnPage = 8;
   actorList: Actor[] = [];
   actorListService: Actor[] = [];
   imgUrl: string;
@@ -44,7 +44,7 @@ export class ActorListComponent implements OnInit {
       this.valueSearch = res;
       this.pagingService.initPaging();
       this.initActors();
-    })
+    });
   }
 
   initActors(): void {
@@ -74,14 +74,14 @@ export class ActorListComponent implements OnInit {
         this.actorListService = this.actorListService.concat(actors.results);
         this.imgUrlActor = `${this.localConfig.smallBackPath}`;
         this.totalResult = actors.total_results;
-        this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.totalResult, actors.results.length)
+        this.pagingService.setInitialParametersPaging(this.itemsOnPage, this.totalResult, actors.results.length);
         this.pagingService.identLastPageService();
-        this.appSpinnerService.showOrHideSpinner(!true)
+        this.appSpinnerService.showOrHideSpinner(!true);
         this.getNextPageActors();
       },
       error => {
         this.router.navigate(['/main', { action: error }]);
-      })
+      });
   }
 
   getNextPageActors(): void {
@@ -113,13 +113,13 @@ export class ActorListComponent implements OnInit {
   }
 
   filterItems(list, value, key) {
-    let exp = new RegExp(value, "i");
+    const exp = new RegExp(value, 'i');
     return list.filter(item => {
       return exp.test(item[key]);
     });
   }
 
   ngOnDestroy() {
-    this.subscription$.unsubscribe();  
+    this.subscription$.unsubscribe();
   }
 }

@@ -4,7 +4,5 @@ export class ActorCredit {
   credit_id: string;
   id: number;
   name: string;
-  profile_path: string | null
+  profile_path: string | null;
 }
-
-

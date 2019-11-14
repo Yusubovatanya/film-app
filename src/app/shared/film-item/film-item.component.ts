@@ -12,8 +12,8 @@ import { Config } from 'protractor';
 export class FilmItemComponent implements OnInit {
   @Input() film: Film;
   @Input() counter: number;
-  @Output('star') starEmitter = new EventEmitter<Film>();
-  @Output('mark') markEmitter = new EventEmitter<Film>();
+  @Output() star = new EventEmitter<Film>();
+  @Output() mark = new EventEmitter<Film>();
 
   imgFull: string;
   imgUrl: string;
@@ -26,15 +26,15 @@ export class FilmItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.poster = this.film.poster_path ? this.imgUrl + this.film.poster_path : this.imgFull
+    this.poster = this.film.poster_path ? this.imgUrl + this.film.poster_path : this.imgFull;
   }
 
   starFilm() {
-    this.starEmitter.emit(this.film);
+    this.star.emit(this.film);
   }
 
   markFilm() {
-    this.markEmitter.emit(this.film);
+    this.mark.emit(this.film);
   }
 
   showFilmInfo() {

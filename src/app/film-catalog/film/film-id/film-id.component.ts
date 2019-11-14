@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { LOCAL_CONFIG } from '../../../shared/local-config';
 import { Config } from 'protractor';
 import { AppSpinnerService } from 'src/app/shared/service/app-spinner.service';
@@ -18,10 +18,8 @@ import { FilmListCredit, FilmListCast, FilmListCrew } from 'src/app/shared/model
   templateUrl: './film-id.component.html',
   styleUrls: ['./film-id.component.css'],
 })
-export class FilmIdComponent implements OnInit {
-  @Output('star') starEmitter = new EventEmitter<Film>();
-  @Output('mark') markEmitter = new EventEmitter<Film>();
-  percentage: number = 60;
+export class FilmIdComponent implements OnInit, OnDestroy {
+  percentage = 60;
   filmId: Film;
   actorListCast: FilmListCast[];
   imgUrlActorCast: string;
@@ -36,7 +34,7 @@ export class FilmIdComponent implements OnInit {
   videoPathVimeo: string;
   subscription$: Subscription;
   trailer: Video;
-  isPlay: boolean = false;
+  isPlay = false;
   selectedIndex: number;
   poster: any;
 
@@ -56,7 +54,7 @@ export class FilmIdComponent implements OnInit {
 
   ngOnInit() {
     this.setInitialTab();
-    this.appSpinnerService.showOrHideSpinner(true)
+    this.appSpinnerService.showOrHideSpinner(true);
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
     const dataStream = forkJoin(
       this.filmService.getFilmId(this.id),
@@ -78,13 +76,13 @@ export class FilmIdComponent implements OnInit {
         }
         if (data[1].crew) {
           this.actorCrewDirector = data[1].crew.filter(item => {
-            return item.job.toLocaleLowerCase() === "director";
+            return item.job.toLocaleLowerCase() === 'director';
           });
         }
         if (data[2].results.length) {
           this.videos = data[2].results;
-          let trailerElement = this.videos.filter(element => {
-            return element.type = "Trailer";
+          const trailerElement = this.videos.filter(element => {
+            return element.type = 'Trailer';
           });
           this.trailer = trailerElement[0];
         }
@@ -94,7 +92,7 @@ export class FilmIdComponent implements OnInit {
       error => {
         this.router.navigate(['/films', { action: error }]);
       }
-    )
+    );
   }
 
   setInitialTab() {
@@ -133,7 +131,7 @@ export class FilmIdComponent implements OnInit {
       this.buildFavorites();
     },
       err => console.log(err)
-    )
+    );
   }
 
   makeMark() {
@@ -145,7 +143,7 @@ export class FilmIdComponent implements OnInit {
       this.buildMarks();
     },
       err => console.log(err)
-    )
+    );
   }
 
   showFilmInfo() {

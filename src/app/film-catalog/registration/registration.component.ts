@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
 
   editInProgress = false;
 
@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit {
   role: string;
   isValidPassword: boolean;
   isValidLogin: boolean;
-  isValid: boolean = true;
+  isValid = true;
   subscription$: Subscription;
   subscriptionForm$: Subscription;
 
@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
     const isLogin = this.authService.isLoggedIn();
     if (isLogin) {
       this.router.navigate(['/films']);
-    } 
+    }
     this.subscriptionForm$ = this.form.valueChanges.subscribe(() => {
       if (this.form.touched || this.form.dirty) {
         this.editInProgress = true;
@@ -47,7 +47,6 @@ export class RegistrationComponent implements OnInit {
     this.editInProgress = false;
     if (this.form.valid) {
       this.isValid = true;
-      console.log(this.form.value.login, this.form.value.password)
       this.subscription$ = this.authService.login(this.form.value.login, this.form.value.password)
         .subscribe(
           () => {
@@ -78,10 +77,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   validationLogin() {
-    if (!this.form.form) return;
-    let exp1 = new RegExp(".*[A-Z]+.*");
-    let exp2 = new RegExp(".*[0-9]+.*");
-    let exp3 = new RegExp(".*[!&^%$#@()/]+.*");
+    const exp1 = new RegExp('.*[A-Z]+.*');
+    const exp2 = new RegExp('.*[0-9]+.*');
+    const exp3 = new RegExp('.*[!&^%$#@()/]+.*');
     if (exp1.test(this.form.value.login) && exp2.test(this.form.value.login) && exp3.test(this.form.value.login)) {
       this.isValidLogin = true;
     } else {
@@ -90,9 +88,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   validationPassword() {
-    if (!this.form) return;
-    let exp1 = new RegExp(".*[A-Z]+.*");
-    let exp2 = new RegExp(".*[0-9]+.*");
+    const exp1 = new RegExp('.*[A-Z]+.*');
+    const exp2 = new RegExp('.*[0-9]+.*');
     if (exp1.test(this.form.value.password) && exp2.test(this.form.value.password)) {
       this.isValidPassword = true;
     } else {

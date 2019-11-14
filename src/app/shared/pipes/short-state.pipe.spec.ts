@@ -1,4 +1,4 @@
-import { ShortStatePipe } from "./short-state.pipe";
+import { ShortStatePipe } from './short-state.pipe';
 
 
 const inputValue = 'United States of America';
