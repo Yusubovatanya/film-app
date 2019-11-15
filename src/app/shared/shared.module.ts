@@ -22,7 +22,6 @@ import { TransformDatePipe } from './pipes/transform-date.pipe';
     FilmItemSimpleComponent,
     ShortStatePipe,
     VideoComponent,
-    VideoComponent,
     SanitizerPipe,
     LoaderComponent,
     TransformDatePipe,

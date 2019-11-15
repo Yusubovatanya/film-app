@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LOCAL_CONFIG } from 'src/app/shared/local-config';
 import { Config } from 'src/app/shared/models/config-model';
-import { AuthService } from 'src/app/shared/service/auth.service';
 import { forkJoin, of, BehaviorSubject } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { Film } from 'src/app/shared/models/film.model';
@@ -31,7 +30,7 @@ export class UserService {
   initBookMark$ = this.observerBookMark.asObservable();
   initName$ = this.observerName.asObservable();
 
-  constructor(@Inject(LOCAL_CONFIG) public localConfig: Config, private http: HttpClient, private authService: AuthService) { }
+  constructor(@Inject(LOCAL_CONFIG) public localConfig: Config, private http: HttpClient) { }
 
   getUser() {
     this.session_id = localStorage.getItem('auth_token');
@@ -69,8 +68,7 @@ export class UserService {
   }
 
   getFavorite(page = 1) {
-    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/favorite/movies?page=${page}\
-    &sort_by=created_at.asc&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
+    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/favorite/movies?page=${page}&sort_by=created_at.asc&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
   }
 
   getBookMarkFilmsService(sort: string = 'asc') {
@@ -96,14 +94,12 @@ export class UserService {
   }
 
   getBookMark(page = 1) {
-    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/watchlist/movies?page=${page}\
-    &sort_by=created_at.desc&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
+    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/watchlist/movies?page=${page}&sort_by=created_at.desc&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
   }
 
   makeFavoriteService(id, status) {
     this.initParamsFavorite();
-    return this.http.post(`${this.localConfig.userAccId}${this.account_id}/favorite?api_key=\
-    ${this.localConfig.apiKey}&session_id=${this.session_id}`, {
+    return this.http.post(`${this.localConfig.userAccId}${this.account_id}/favorite?api_key=${this.localConfig.apiKey}&session_id=${this.session_id}`, {
       'media_type': 'movie',
       'media_id': id,
       'favorite': status,
@@ -112,8 +108,7 @@ export class UserService {
 
   makeBookMarkService(id, status) {
     this.initParamsBookMark();
-    return this.http.post(`${this.localConfig.userAccId}${this.account_id}/watchlist?api_key=\
-    ${this.localConfig.apiKey}&session_id=${this.session_id}`, {
+    return this.http.post(`${this.localConfig.userAccId}${this.account_id}/watchlist?api_key=${this.localConfig.apiKey}&session_id=${this.session_id}`, {
       'media_type': 'movie',
       'media_id': id,
       'watchlist': status,
@@ -136,7 +131,6 @@ export class UserService {
 
   buildFavorites() {
     return this.filmFavoriteListService.map(film => film.id);
-
   }
 
   buildMarks() {
@@ -145,13 +139,11 @@ export class UserService {
 
   deleteSession() {
     const params = new HttpParams().set('session_id', this.session_id);
-    return this.http.delete(`${this.localConfig.apiUrl}/authentication/session?api_key=\
-    ${this.localConfig.apiKey}`, { params: params });
+    return this.http.delete(`${this.localConfig.apiUrl}/authentication/session?api_key=${this.localConfig.apiKey}`, { params: params });
   }
 
   getTest() {
-    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/favorite/movies?page=1&\
-    sort_by=created_at.asc\&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
+    return this.http.get(`${this.localConfig.userAccId}${this.account_id}/favorite/movies?page=1&sort_by=created_at.asc\&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
   }
 
 }

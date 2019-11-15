@@ -1,17 +1,35 @@
 import { of } from "rxjs"
-
+import { Film } from "../models/film.model";
 
 export class UserMockService {
-  getFilmId(id: number) {
-    return of({});
+  currentFavoritePage = 54;
+  film:Film = {
+    poster_path: '/skvI4rYFrKXS73BJxWGH54Omlvv.jpg',
+    title: 'testTitleFilm',
+    overview: 'test info about film',
+    release_date: '2019-10-16',
+    popularity: 100,
+    id: 420809,
+    isFavorite: true,
+    isMark: false,
+    vote_average: 5.6,
+    production_countries: [
+      { iso_3166_1: "US", name: "United States of America" }
+    ],
+    genres: [
+      { id: 14, name: "фэнтези" }, 
+      { id: 12, name: "приключения" },
+    ],
+    runtime: 120,
+  };
+  filmFavoriteListService: Film[] = [this.film];
+  filmBookMarkListService: Film[] = [this.film];
+  
+  buildFavorites() {
+    return this.filmFavoriteListService.map(film => film.id);
   }
 
-  getActorCast(id: number) {
-    return of({});
+  buildMarks() {
+    return this.filmBookMarkListService.map(film => film.id);
   }
-
-  getVideos(id: number) {
-    return of({});
-  }
-
 }

@@ -62,6 +62,7 @@ export class FilmIdComponent implements OnInit, OnDestroy {
       this.filmService.getVideos(this.id),
     );
     this.subscription$ = dataStream.subscribe((data: [Film, FilmListCredit, VideoList]) => {
+      console.log(data)
       if (data) {
         if (data[0]) {
           this.filmId = data[0];
@@ -144,10 +145,6 @@ export class FilmIdComponent implements OnInit, OnDestroy {
     },
       err => console.log(err)
     );
-  }
-
-  showFilmInfo() {
-    return true;
   }
 
   playFilm() {

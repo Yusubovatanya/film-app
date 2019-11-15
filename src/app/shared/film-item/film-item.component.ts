@@ -36,9 +36,4 @@ export class FilmItemComponent implements OnInit {
   markFilm() {
     this.mark.emit(this.film);
   }
-
-  showFilmInfo() {
-    return true;
-  }
-
 }

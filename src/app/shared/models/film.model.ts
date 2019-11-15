@@ -8,9 +8,14 @@ export class Film {
   isFavorite?: boolean;
   isMark?: boolean;
   vote_average: number;
-  production_countries?: [string];
-  genres?: [string];
-  runtime?: string;
+  production_countries?: [
+    {
+      iso_3166_1: string,
+      name: string,
+    }
+  ];
+  genres?: Genres[];
+  runtime?: number;
 }
 
 export class FilmList {
@@ -20,5 +25,7 @@ export class FilmList {
   total_pages: number;
 }
 
-
-
+export class Genres {
+  id: number;
+  name: string;
+}
