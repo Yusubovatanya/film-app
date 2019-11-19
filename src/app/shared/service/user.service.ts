@@ -145,5 +145,4 @@ export class UserService {
   getTest() {
     return this.http.get(`${this.localConfig.userAccId}${this.account_id}/favorite/movies?page=1&sort_by=created_at.asc\&language=ru-RU&session_id=${this.session_id}${this.localConfig.paramsApi}`);
   }
-
 }

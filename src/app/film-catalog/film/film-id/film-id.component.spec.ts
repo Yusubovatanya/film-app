@@ -5,7 +5,7 @@ import { UserMockService } from 'src/app/shared/service/user.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA, InjectionToken } from '@angular/core';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { of, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { ShortStatePipe } from 'src/app/shared/pipes/short-state.pipe';
 import { LOCAL_CONFIG, localConfig } from 'src/app/shared/local-config';
 import { Config } from 'src/app/shared/models/config-model';
@@ -15,6 +15,7 @@ import { FilmMockService } from 'src/app/shared/service/film-mock.service';
 import { Film } from 'src/app/shared/models/film.model';
 import { FilmListCredit } from 'src/app/shared/models/filmListCredit.model';
 import { VideoList } from 'src/app/shared/models/video.model';
+
 
 describe('ResultComponent', () => {
   let component: FilmIdComponent;
@@ -137,4 +138,11 @@ describe('ResultComponent', () => {
     });
     expect(trailerElement.length).toBe(2);
   })
+
+  it('should starFilm', () => {
+    userService.makeFavoriteService(filmId,!filmId.isFavorite);
+    // component.starFilm();
+    expect(!filmId.isFavorite).toBe(filmId.isFavorite);
+  })
+     
 })
